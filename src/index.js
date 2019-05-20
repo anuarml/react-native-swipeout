@@ -13,6 +13,7 @@ import {
   TouchableHighlight,
   StyleSheet,
   Text,
+  Platform,
   View,
   ViewPropTypes,
 } from 'react-native';
@@ -73,7 +74,7 @@ const SwipeoutBtn = createReactClass({
     var styleSwipeoutBtnText = [styles.swipeoutBtnText];
 
     //  apply text color
-    if (btn.color) styleSwipeoutBtnText.push({color: btn.color });
+    if (btn.color) styleSwipeoutBtnText.push({ color: btn.color });
 
     return (
       <NativeButton
@@ -118,6 +119,9 @@ const Swipeout = createReactClass({
       rowID: -1,
       sectionID: -1,
       sensitivity: 50,
+      disabled: false,
+      onPress: () => null,
+      sensitivity: Platform.select({ android: 50, ios: 0 })
     };
   },
 
@@ -131,6 +135,7 @@ const Swipeout = createReactClass({
       contentPos: 0,
       contentWidth: 0,
       openedRight: false,
+      openedLeft: false,
       swiping: false,
       tweenDuration: 160,
       timeStart: null,
@@ -149,7 +154,7 @@ const Swipeout = createReactClass({
       onPanResponderMove: this._handlePanResponderMove,
       onPanResponderRelease: this._handlePanResponderEnd,
       onPanResponderTerminate: this._handlePanResponderEnd,
-      onShouldBlockNativeResponder: (event, gestureState) => false,
+      onShouldBlockNativeResponder: (event, gestureState) => true,
       onPanResponderTerminationRequest: () => false,
     });
   },
@@ -238,6 +243,10 @@ const Swipeout = createReactClass({
       } else {
         this._close();
       }
+    }
+
+    if (this.state.contentPos === 0 && !this.props.disabled) {
+      this.props.onPress()
     }
 
     //  Allow scroll
