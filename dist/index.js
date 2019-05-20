@@ -137,8 +137,7 @@ var Swipeout = (0, _createReactClass2.default)({
     return _ref = {
       disabled: false,
       rowID: -1,
-      sectionID: -1,
-      sensitivity: 50
+      sectionID: -1
     }, _defineProperty(_ref, 'disabled', false), _defineProperty(_ref, 'onPress', function onPress() {
       return null;
     }), _defineProperty(_ref, 'sensitivity', _reactNative.Platform.select({ android: 50, ios: 0 })), _ref;
